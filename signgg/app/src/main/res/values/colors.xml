@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+
+    <color name="bule">#3090E6</color>
+    
+
+    <color name="textbiue">#2ea6fa</color>
+
+    <color name="textwhile">#ffffff</color>
+
+    <color name="textblack">#000000</color>
+
+    //不可选中的蓝色
+    <color name="littlebule">#afdeff</color>
+
+    <color name="lotsbule">#2ea6fa</color>
+
+    <color name="linecolor">#e0e0e0</color>
+
+    <color name="naise">#f9f9f9</color>
+    
+
+
+</resources>
