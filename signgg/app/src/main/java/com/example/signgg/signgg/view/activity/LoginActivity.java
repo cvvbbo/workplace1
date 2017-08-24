@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.signgg.signgg.Application.MyApplication;
 import com.example.signgg.signgg.R;
 import com.example.signgg.signgg.net.bean.Loginbeann;
 import com.example.signgg.signgg.net.bean.Smsbean;
@@ -23,6 +24,8 @@ import com.example.signgg.signgg.net.httphelper;
 import com.example.signgg.signgg.utils.Constant;
 import com.example.signgg.signgg.utils.GsonUtil;
 import com.example.signgg.signgg.utils.LogUtil;
+import com.example.signgg.signgg.utils.Netutils;
+import com.example.signgg.signgg.utils.NetworkUtils;
 import com.example.signgg.signgg.utils.SignUtils;
 import com.example.signgg.signgg.utils.Test3Builder;
 import com.example.signgg.signgg.utils.ToastUtil;
@@ -73,7 +76,6 @@ public class LoginActivity extends AppCompatActivity {
                     sendCode.setText("重新获取");
                     sendCode.setEnabled(true);
                     break;
-
             }
         }
     };
@@ -97,9 +99,18 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Logininto();
+                if(Netutils.isNetworkAvalible(MyApplication.mcontext)){
+                    LogUtil.e("当前网络可用");
+                    Logininto();
+                }else {
+                    LogUtil.e("当前网络不可用");
+                    ToastUtil.showToast("当前网络不可用");
+                   Netutils.checkNetwork(LoginActivity.this);
                 }
-            });
+
+
+            }
+        });
 
 
 
@@ -118,7 +129,16 @@ public class LoginActivity extends AppCompatActivity {
         sendCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Getsignnum();
+               // Getsignnum();
+
+                if(Netutils.isNetworkAvalible(MyApplication.mcontext)){
+                    LogUtil.e("当前网络可用");
+                    Getsignnum();
+                }else {
+                    LogUtil.e("当前网络不可用");
+                    ToastUtil.showToast("当前网络不可用");
+                    Netutils.checkNetwork(LoginActivity.this);
+                }
             }
         });
     }
@@ -151,7 +171,7 @@ public class LoginActivity extends AppCompatActivity {
             ToastUtil.showToast("验证码不能空");
 
         }else {
-            String phone = phonenum.getText().toString().trim();
+             String phone = phonenum.getText().toString().trim();
             LogUtil.e("能获取到手机号么" + phone);
             LogUtil.e("验证码" + codenum);
             //传json
@@ -164,15 +184,17 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void success(String s) {
                     Loginbeann loginbeann = GsonUtil.parseJsonToBean(s, Loginbeann.class);
-
                     int status = loginbeann.getStatus();
                     String msg = loginbeann.getMsg();
                     //添加入集合储存起来。
                     if (status == 0) {
+                        String phone = phonenum.getText().toString().trim();
+                        sharepreferenceUtils.saveStringdata(LoginActivity.this,"getphone",phone);
                         Intent intent = new Intent(LoginActivity.this, CheckidentityActivity.class);
                         startActivity(intent);
                         sharepreferenceUtils.saveBooleandata(LoginActivity.this, "islogin", false);
                         finish();
+                        LogUtil.e("登录成功");
 
                     } else if (status == 1) {
                         ToastUtil.showToast(msg);

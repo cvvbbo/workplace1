@@ -8,8 +8,10 @@ import com.example.signgg.signgg.Application.MyApplication;
 import com.example.signgg.signgg.net.httphelper;
 import com.example.signgg.signgg.utils.Constant;
 import com.example.signgg.signgg.utils.LogUtil;
+import com.example.signgg.signgg.utils.SignUtils;
 import com.example.signgg.signgg.utils.Test3;
 import com.example.signgg.signgg.utils.Test3Builder;
+import com.example.signgg.signgg.utils.sharepreferenceUtils;
 
 import java.util.HashMap;
 
@@ -33,30 +35,16 @@ public class Mefragment extends BaseFragment {
     @Override
     public void loadData() {
 
+        //这个号码也是方法sp存储里面的
+        String getphone = sharepreferenceUtils.getStringdata(MyApplication.mcontext, "getphone", "");
+        LogUtil.e(getphone);
 
-        //下面这一整串代码要封装起来
-        Test3 t3=new Test3();
-        HashMap<String, String> tomap = t3.tomap(Constant.BASE_SEND_MSG);
-        String sortmap = t3.sortmap(tomap);
-        String encode = Test3.encode(sortmap);
-        String token = t3.addString(encode, "MIAOQIAN_API_TOKEN");
-        String upwrite = t3.upwrite(token);
-        String encode1 = Test3.encode(upwrite);
-        String upwrite1 = t3.upwrite(encode1);
+        String getuserinfo = SignUtils.Getuserinfo(getphone);
+
+        String mylord = Test3Builder.Mylord(getuserinfo);
 
 
-        //去除最后一个大括号(这里也要重新写个方法)
-        String s=(Constant.BASE_SEND_MSG.substring(0,Constant.BASE_SEND_MSG.length()-1));
-
-        String newsign=s+",\"sign\":\""+upwrite1+"\"}";
-        Test3Builder t=new Test3Builder();
-        String mylord = t.Mylord(Constant.BASE_SEND_MSG);
-        LogUtil.e(mylord);
-
-        LogUtil.e(newsign);
-
-
-        httphelper.create().dopost(Constant.BASE_SEND_URL, newsign, new httphelper.httpcallback() {
+        httphelper.create().dopost(Constant.GET_USER_INFO_URL, mylord, new httphelper.httpcallback() {
             @Override
             public void success(String s) {
                 differentstate.showsuccessView();
