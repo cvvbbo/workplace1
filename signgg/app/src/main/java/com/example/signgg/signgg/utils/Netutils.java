@@ -49,18 +49,13 @@ public class Netutils {
         // 如果没有网络，则弹出网络设置对话框
         public static void checkNetwork(final Activity activity) {
             if (!Netutils.isNetworkAvalible(activity)) {
-//                TextView msg = new TextView(activity);
-//                msg.setText("当前没有可以使用的网络，请设置网络！");
-//                new AlertDialog.Builder(activity).setIcon(R.mipmap.ic_launcher).setTitle("网络状态提示").setView(msg).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//
-//                    public void onClick(DialogInterface dialog, int whichButton) {
-//                        // 跳转到设置界面
-//                        activity.startActivityForResult(new Intent(Settings.ACTION_WIRELESS_SETTINGS), 0);
-//                    }
-//                }).create().show();
-//            }
-           // return;
-                activity.startActivityForResult(new Intent(Settings.ACTION_WIRELESS_SETTINGS), 0);
+
+               // activity.startActivityForResult(new Intent(Settings.ACTION_WIRELESS_SETTINGS), 0);
+                if (android.os.Build.VERSION.SDK_INT > 10) {
+                    activity.startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
+                } else {
+                    activity.startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
+                }
         }}
 
         /**

@@ -1,11 +1,15 @@
 package com.example.signgg.signgg.view.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -61,6 +65,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private  int time=60;
 
+    private MyReceiver receiver;
+    private LocalBroadcastManager manager;
+
 
     Handler h=new Handler(){
         @Override
@@ -91,6 +98,11 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         inintToolbar();
         sharepreferenceUtils.saveBooleandata(LoginActivity.this, "isfrist", false);
+        //获取短信验证码广播
+        manager = LocalBroadcastManager.getInstance(this);
+        receiver = new MyReceiver();
+        IntentFilter intentfilter = new IntentFilter("com.miaoqian.getcode");
+        manager.registerReceiver(receiver, intentfilter);
 
 
 
@@ -105,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
                 }else {
                     LogUtil.e("当前网络不可用");
                     ToastUtil.showToast("当前网络不可用");
-                   Netutils.checkNetwork(LoginActivity.this);
+                    Netutils.checkNetwork(LoginActivity.this);
                 }
 
 
@@ -129,7 +141,7 @@ public class LoginActivity extends AppCompatActivity {
         sendCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Getsignnum();
+                // Getsignnum();
 
                 if(Netutils.isNetworkAvalible(MyApplication.mcontext)){
                     LogUtil.e("当前网络可用");
@@ -141,6 +153,20 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+
+    //自动获取短信广播
+    private class MyReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //收到广播 填写验证码
+            String code = intent.getStringExtra("code");
+            signnum.setText(code);
+
+        }
+
     }
 
 
@@ -171,7 +197,7 @@ public class LoginActivity extends AppCompatActivity {
             ToastUtil.showToast("验证码不能空");
 
         }else {
-             String phone = phonenum.getText().toString().trim();
+            String phone = phonenum.getText().toString().trim();
             LogUtil.e("能获取到手机号么" + phone);
             LogUtil.e("验证码" + codenum);
             //传json
@@ -235,6 +261,13 @@ public class LoginActivity extends AppCompatActivity {
             LogUtil.e(mylord);
 
             httphelper.create().dopost(Constant.BASE_SEND_URL, mylord, new httphelper.httpcallback() {
+
+                /**
+                 *
+                 * 这里还有个隐藏的bug，就是当服务端在调试的时候
+                 * @param s
+                 */
+
                 @Override
                 public void success(String s) {
                     Smsbean smsbean = GsonUtil.parseJsonToBean(s, Smsbean.class);
@@ -250,18 +283,15 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 while (time > 1) {
-                                    SystemClock.sleep(1000);
+                                    //别设置成1000，太慢了。，要么就放在下面试试
+                                    SystemClock.sleep(600);
                                     h.sendEmptyMessage(UN_CHECK);
                                 }
                                 h.sendEmptyMessage(CAN_CHECK);
 
                             }
                         }.start();
-
-
                         ToastUtil.showToast(msg);
-
-
                     }
                     LogUtil.e(s);
 
@@ -269,11 +299,16 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void fail(Exception e) {
+                    ToastUtil.showToast("灰常抱歉！服务器出错了");
                     LogUtil.e(e + " ");
-
                 }
             });
         }
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        manager.unregisterReceiver(receiver);
     }
 }

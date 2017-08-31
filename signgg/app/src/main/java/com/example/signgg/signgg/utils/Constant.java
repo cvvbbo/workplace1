@@ -26,16 +26,28 @@ public interface Constant {
     String BASE_SEND_MSG="{\"mobile\":\"15222202530\",\"smscode\":\"9923\",\"appv\":\"v1\",\"timestamp\":\"1503214167365\"}";
 
 
-    String BASE_SEND_URL="http://192.168.3.47/v1/channelOffline/message";
+    String ssss="http://192.168.3.47/";
+
+    String BASE_SEND_URL=ssss+"v1/channelOffline/message";
 
 
     //验证登录信息
-    String SIGN_CHECK_URL="http://192.168.3.47/v1/channelOffline/check";
+    String SIGN_CHECK_URL=ssss+"v1/channelOffline/check";
+
+    //获取用户信息
+    String GET_USER_INFO_URL=ssss+"v1/channelOffline/get";
+
+    //上传照片
+    String UP_IMAGE_URL=ssss+"v1/channelOffline/upload_idCard";
+
+
+    //个人信息界面获取条目
+    String GET_USERPAGER_PAGER=ssss+"v1/title/menu?XDEBUG_SESSION_START=12393";
 
 
 
 
-    //基础的测试连接
-    String ssss="http://192.168.3.47/";
+
+
 
 }

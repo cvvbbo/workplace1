@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.example.signgg.signgg.Application.MyApplication;
 import com.example.signgg.signgg.utils.LogUtil;
+import com.example.signgg.signgg.utils.SignUtils;
+import com.example.signgg.signgg.utils.Test3Builder;
 import com.example.signgg.signgg.utils.sharepreferenceUtils;
 
 import java.io.File;
@@ -30,6 +32,7 @@ import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -96,8 +99,8 @@ public class httphelper {
 
 
         okHttpClient = new OkHttpClient.Builder()
-                .readTimeout(2, TimeUnit.SECONDS)
-                .connectTimeout(2,TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .connectTimeout(7,TimeUnit.SECONDS)
                 .addInterceptor(new AddCookiesInterceptor())
                 .addInterceptor(new ReceivedCookiesInterceptor()).build();
 
@@ -162,8 +165,6 @@ public class httphelper {
                         h.fail(e);
                     }
                 });
-
-
             }
 
             @Override
@@ -185,14 +186,92 @@ public class httphelper {
     }
 
 
+
+    //上传身份证正反面
+    public void upImage(String[] s,String url, final httpcallback h){
+
+        MultipartBody.Builder builder=new MultipartBody.Builder()
+                .setType(MultipartBody.FORM);
+        ArrayList<String> imageurl=new ArrayList<>();
+
+        //把数组加进集合
+        for (int j=0;j<s.length;j++){
+            imageurl.add(s[j]);
+            Log.e("--",imageurl.get(j));
+        }
+
+        Log.e("---",imageurl.size()+" ");
+
+
+
+        for (int i=0;i<imageurl.size();i++){
+            File f=new File(imageurl.get(i));
+            //第一个参数是文件名，就是纯文件名，不要jpg的。（这个第一个参数可能是上传图片的key值，然后第二个参数是文件名，带后缀的！切记）
+            //image/jpg
+            //服务端获取的文件名字就是靠第二个参数，如果第二个参数没有后缀名，那么这个参数服务器是不知道他是个什么类型的文件
+            builder.addFormDataPart(f.getName().substring(0,f.getName().length()-4), f.getName(),RequestBody.create(MediaType.parse("image/jpg"),f));
+            Log.e("--",f.getName().substring(0,f.getName().length()-4));
+            Log.e("--",f.getName());
+        }
+        builder.addFormDataPart("offline_id", "63");
+        builder.addFormDataPart("appv", "v1");
+        long l = System.currentTimeMillis() ;
+        String  str=String.valueOf(l);
+        builder.addFormDataPart("timestamp", str);
+        String getuseriteminfo = SignUtils.Getuseridentity();
+        String yougrace = Test3Builder.Yougrace(getuseriteminfo);
+        LogUtil.e("--new"+yougrace);
+        String mylord = Test3Builder.Mylord(getuseriteminfo);
+        LogUtil.e("--old"+mylord);
+        builder.addFormDataPart("sign", yougrace);
+
+
+
+
+        RequestBody requestBody = builder.build();
+        Request request=new Request.Builder()
+                .post(requestBody).url(url).build();
+
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, final IOException e) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        h.fail(e);
+                    }
+                });
+
+
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                ResponseBody body = response.body();
+                final String string = body.string();
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        h.success(string);
+                    }
+                });
+
+            }
+        });
+
+    }
+
+
+
    public  interface  httpcallback{
        void success(String s);
        void fail(Exception e);
    }
 
+
+   //请求里面添加sessionid然后保存下来，方便下次请求验证！
     public class AddCookiesInterceptor implements Interceptor {
-
-
         @Override
         public Response intercept(Chain chain) throws IOException {
             Request.Builder builder = chain.request().newBuilder();

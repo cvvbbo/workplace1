@@ -35,6 +35,10 @@ dependencies {
     compile 'com.squareup.okio:okio:1.13.0'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    //这个是密码输入框的第三方，输入框可以隐藏和显示
     compile 'com.android.support:design:24.2.0'
+    //圆形图像
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'com.github.bumptech.glide:glide:4.0.0'
 
 }

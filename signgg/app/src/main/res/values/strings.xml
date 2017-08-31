@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">signgg</string>
+
+    <string name="warn">温馨提示：请上传原始比例的身份证正反面，请勿裁剪涂改，保证身份证信息清晰显示，否则无法通过审核</string>
 </resources>

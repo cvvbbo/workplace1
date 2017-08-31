@@ -45,7 +45,8 @@ public class SignUtils {
 
     }
 
-    public void Getuserinfo(String phone){
+    //获取用户信息
+    public static String Getuserinfo(String phone){
         JSONObject json=new JSONObject();
         long l = System.currentTimeMillis() ;
         String  str=String.valueOf(l);
@@ -56,7 +57,42 @@ public class SignUtils {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        return  json.toString();
     }
+
+
+    //{"category":"2","appv":"v1","timestamp":
+    //获取个个人信息界面条目的展示
+    public static String Getuseriteminfo(){
+        JSONObject json=new JSONObject();
+        long l = System.currentTimeMillis() ;
+        String  str=String.valueOf(l);
+        try {
+            json.put("category","2");
+            json.put("timestamp", str);
+            json.put("appv","v1");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return  json.toString();
+    }
+
+    public static String Getuseridentity(){
+        JSONObject json=new JSONObject();
+        long l = System.currentTimeMillis() ;
+        String  str=String.valueOf(l);
+        try {
+            json.put("offline_id","63");
+            json.put("timestamp", str);
+            json.put("appv","v1");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return  json.toString();
+    }
+
+
+
 
 
     //获取时间戳

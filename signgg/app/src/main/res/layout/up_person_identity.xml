@@ -1,241 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-    
-    
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/tb"
-        android:background="#3090E6"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
+    android:background="#ffffff"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/tb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#3090E6" />
+
+
+        <include layout="@layout/identity_front"/>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/graycolor"
+            android:padding="8dp"
+            android:text="上传身份证正反面"
+            android:textSize="18sp" />
+
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:background="@null"
+            android:hint="您的真实姓名"
+            android:padding="5dp" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="@color/linecolor" />
+
+        <EditText
+            android:id="@+id/identitynum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:background="@null"
+            android:hint="您的身份证号码"
+            android:padding="5dp" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="@color/linecolor" />
 
 
         <LinearLayout
-            android:paddingTop="5dp"
             android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <ImageView
-                android:paddingLeft="10dp"
-                android:layout_gravity="center"
-                android:src="@drawable/identity_point"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-             android:paddingLeft="5dp"
-                android:text="体现个人信息必须和身份认证信息一致，否则无法体现"/>
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
 
 
-        </LinearLayout>
-        
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/identity_point" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingLeft="10dp"
+                    android:text="我已经阅读相关条款" />
+
+            </LinearLayout>
 
 
-        <EditText
-            android:layout_margin="5dp"
-            android:id="@+id/idcard_name"
-            android:hint="真实姓名"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:layout_margin="5dp"
-            android:id="@+id/idcard_number"
-            android:hint="身份证号码"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-
-    </LinearLayout>
-    
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:paddingLeft="10dp"
-            android:layout_gravity="center"
-            android:src="@drawable/identity_point"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:paddingLeft="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="上传身份证正面"/>
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginLeft="10dp"
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/upbt"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="参考照片"/>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher"
-                android:scaleType="centerCrop"/>
+                android:layout_margin="10dp"
+                android:background="#3090E6"
+                android:text="提交验证" />
 
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="身份证正面"/>
-
-            <ImageView
-                android:id="@+id/frontidentity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher"
-                android:scaleType="centerCrop"/>
-
-
-        </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:paddingTop="5dp"
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
-
-        <ImageView
-
-            android:paddingLeft="10dp"
-            android:layout_gravity="center"
-            android:src="@drawable/identity_point"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:paddingLeft="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="上传身份证背面"/>
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:paddingLeft="10dp"
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="参考照片"/>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher"
-                android:scaleType="centerCrop"/>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="身份证背面"/>
-
-            <ImageView
-                android:id="@+id/backidentity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher"
-                android:scaleType="centerCrop"/>
-
-
-        </LinearLayout>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_margin="10dp"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-        <CheckBox
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/identity_point"/>
-
-        <TextView
-            android:paddingLeft="10dp"
-            android:layout_gravity="center"
-            android:text="我已经阅读相关条款"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
-
-    <Button
-        android:id="@+id/upbt"
-        android:layout_margin="10dp"
-        android:background="#3090E6"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="点击提交"/>
-
-
-
-
-
-
-
-
-</LinearLayout>
+</ScrollView>

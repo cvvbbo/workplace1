@@ -6,6 +6,12 @@
     <!--检查网络状态的权限-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
+    <!--接受短信-->
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:name=".Application.MyApplication"
         android:allowBackup="true"
@@ -14,7 +20,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme2">
 
-        <activity android:name=".view.activity.LoginActivity">
+        <activity android:name=".view.activity.BeginActivity">
+        <!--<activity android:name=".view.activity.LoginActivity">-->
         <!--<activity android:name=".view.activity.SettingpasswordActivity">-->
         <!--<activity android:name=".view.activity.TestActivity">-->
         <!--<activity android:name=".view.activity.PasswloginActivity">-->
@@ -43,7 +50,7 @@
         <activity android:name=".view.activity.Loadcheckidentity"/>
 
         <!--开始工作界面-->
-        <activity android:name=".view.activity.BeginActivity"/>
+        <!--<activity android:name=".view.activity.BeginActivity"/>-->
 
         <activity android:name=".view.activity.ForgetpasswordActivity"/>
 
@@ -54,6 +61,13 @@
         <!--<activity android:name=".view.activity.TestActivity"></activity>-->
 
         <activity android:name=".view.activity.PasswloginActivity"/>
+
+        <!--自动获取短信验证码-->
+        <receiver android:name="com.example.signgg.signgg.receiver.SmsReceiver">
+            <intent-filter >
+                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+            </intent-filter>
+        </receiver>
 
 
     </application>

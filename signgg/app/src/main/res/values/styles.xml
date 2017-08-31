@@ -17,4 +17,11 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+
+    <style name="Mydialog" parent="android:style/Theme.Dialog">
+        <!-- 注意这里也有个天坑啊，背景不是background而是windowBackgroud -->
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
 </resources>

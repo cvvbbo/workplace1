@@ -4,10 +4,15 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.example.signgg.signgg.R;
 import com.example.signgg.signgg.net.httphelper;
+import com.example.signgg.signgg.utils.Constant;
 import com.example.signgg.signgg.utils.LogUtil;
+import com.example.signgg.signgg.utils.Netutils;
+import com.example.signgg.signgg.utils.SignUtils;
+import com.example.signgg.signgg.utils.Test3Builder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -88,6 +93,49 @@ public class TestActivity  extends Activity {
 //
 //        String  str=String.valueOf(l);
 //        System.out.println(str);
+
+//        new Thread(){
+//            @Override
+//            public void run() {
+//                if (Netutils.isNetworkAvalible(TestActivity.this)){
+//                    Log.e("网络是否可用","Y");
+//                }else {
+//                    Log.e("网络不可用","N");
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Netutils.checkNetwork(TestActivity.this);
+//
+//                        }
+//                    });
+//
+//                }
+//
+//            }
+//        }.start();
+
+        String getuseriteminfo = SignUtils.Getuseriteminfo();
+        String mylord = Test3Builder.Mylord(getuseriteminfo);
+
+        String getuserinfo = SignUtils.Getuserinfo("18134107080");
+        String mylord1 = Test3Builder.Mylord(getuserinfo);
+
+
+
+        httphelper.create().dopost(Constant.GET_USERPAGER_PAGER, mylord, new httphelper.httpcallback() {
+            @Override
+            public void success(String s) {
+                LogUtil.e(s);
+
+            }
+
+            @Override
+            public void fail(Exception e) {
+                LogUtil.e(e+"服务器失败。。");
+
+            }
+        });
+
 
     }
 }
